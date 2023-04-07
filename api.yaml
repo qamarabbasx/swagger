@@ -1,3 +1,284 @@
 swagger: '2.0'
 info:
-  title: Swagger Learning Api
+  title: Swagger Learning Api Docs
+  description: This is my learning documentation created by me refered by asad shahab
+  version: 1.0
+  contact:
+    email: reply.qamar@gmail.com
+  licence:
+    name: apache 2.0
+    url: 'http://apache.org/'
+  servers:
+    -url : "http:localhost:3000/"
+    description: this is my local server
+    -url: "mycompany.com"
+    description: this is my company server
+schemes: [http,https]
+
+paths:
+# Returns a string
+  /string:
+    get: 
+      summary: Returns a String
+      description: it is just returning a fake string .
+      responses:
+        200:
+          description: Success
+          schema: 
+            type: string
+            example: "A fake string"
+        400:
+          description: User Error
+        500:
+          description: Internal server Error
+
+# Returns a Object
+  /user:
+    get: 
+      summary: Returns a Object of User
+      description: it is just returning a object .
+      responses:
+        200:
+          description: Success
+          schema: 
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+              name:
+                type: string
+                example: "Qamar Abbas"
+              age:
+                type: integer
+                example: 20
+        400:
+          description: User Error
+        500:
+          description: Internal server Error
+
+# Returns a Array of Users
+  /users:
+    get: 
+      summary: Returns a Array of Users
+      description: it is just returning a array of users .
+      responses:
+        200:
+          description: Success
+          schema: 
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                name:
+                  type: string
+                  example: "Qamar Abbas"
+                age:
+                  type: integer
+                  example: 20
+        400:
+          description: User Error
+        500:
+          description: Internal server Error
+
+# Returns a Object of User through path parameter
+  /users/{userId}:
+    get: 
+      summary: Returns a Object of User
+      description: it is just returning a object .
+      parameters:
+        - name: userId
+          in: path
+          description: id of the user
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Success
+          schema: 
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+              name:
+                type: string
+                example: "Qamar Abbas"
+              age:
+                type: integer
+                example: 20
+        400:
+          description: User Error
+        500:
+          description: Internal server Error
+
+# Returns a Object of User through query parameter
+  /usersQuery:
+    get: 
+      summary: Returns a Object of User
+      description: it is just returning a object .
+      parameters:
+        - name: id
+          in: query
+          description: id of the user
+          required: true
+          enum: [1,2,3]
+          type: integer
+      responses:
+        200:
+          description: Success
+          schema: 
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+              name:
+                type: string
+                example: "Qamar Abbas"
+              age:
+                type: integer
+                example: 20
+        400:
+          description: User Error
+        500:
+          description: Internal server Error
+
+# File Upload
+  /upload:
+    post: 
+      summary: Upload a File
+      description: it is just uploading a file .
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: file
+          in: formData
+          description: file to upload
+          required: true
+          type: file
+          # if multiple records are allowed
+        - name: id
+          in: formData
+          description: id of integer
+          required: true
+          type: integer  
+        - in: header
+          name: auth
+          type: string
+          required: true
+          description: Custom header that needs to be added to the request   
+        - in: cookie
+          name: auth
+          type: string
+          required: true
+          description: Custom cookie that needs to be added to the request     
+      responses:
+        200:
+          description: OK
+        400:
+          description: User Error
+        500:
+          description: Internal server Error
+
+# Post json/body
+  # /create:
+  #   post: 
+  #     summary: Post a User
+  #     description: it is just posting a user .
+  #     produces:
+  #       - application/json
+  #     consumes:
+  #       - application/json
+  #     parameters:
+  #       - name: user
+  #         in: body
+  #         description: user object
+  #         required: true
+  #         schema:
+  #           type: object
+  #           properties:
+  #             id:
+  #               type: integer
+  #               example: 1
+  #             name:
+  #               type: string
+  #               example: "Qamar Abbas"
+  #             age:
+  #               type: integer
+  #               example: 20
+  #     responses:
+  #       201:
+  #         description: Success
+  #         schema: 
+  #           type: object
+  #           properties:
+  #             id:
+  #               type: integer
+  #               example: 1
+  #             name:
+  #               type: string
+  #               example: "Qamar Abbas"
+  #             age:
+  #               type: integer
+  #               example: 20
+  #       400:
+  #         description: User Error
+  #       500:
+  #         description: Internal server Error
+
+#Schema with Definition
+  /create:
+    post: 
+      summary: Post a User
+      description: it is just posting a user .
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: user
+          in: body
+          description: user object
+          required: true
+          schema:
+            $ref: '#/components/schemas/User'
+      responses:
+        201:
+          description: Success
+          schema: 
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+              name:
+                type: string
+                example: "Qamar Abbas"
+              age:
+                type: integer
+                example: 20
+        400:
+          description: User Error
+        500:
+          description: Internal server Error
+
+# Define schemas at the end of the file
+# Definitions
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Qamar Abbas"
+        age:
+          type: integer
+          example: 20
